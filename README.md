@@ -1,3 +1,3 @@
-# Monostack
+# VCTeam Space
 
-Monorepo template
+VCTeam Space
