@@ -1,0 +1,18 @@
+---
+import config from '@/config';
+
+const { title } = config;
+---
+
+<footer class='footer footer-center p-4'>
+  <div>
+    <p class='text-xs text-base-content/70'>
+      &copy; {new Date().getFullYear()} –
+      <a class='link' href='https://blog.vc-team.com' target='_blank'>
+        {title}
+      </a>
+      - Powered by
+      <a class='link' href='https://astro.build/' target='_blank'> Astro</a>
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,73 @@
+import reactFlowImgSrc from "./assets/react-flow.png";
+
+export const title = "React useEffect Cleanup";
+export const date = "2021-11-23";
+export const author = "Gialynguyen-Steven";
+export const desc = "Giới thiệu về cleanup trong React useEffect và một vài điểm lưu ý khi sử dụng.";
+export const img = "https://dillionmegida.com/post-covers/80-cleanup-side-effects.png";
+export const imgWidth = 538;
+export const imgHeight = 323;
+
+React cung cấp một khả năng cho phép function bên trong useEffect return một function, function này sẽ được thực thi trong lần effect xảy ra tiếp theo hoặc khi component thực hiện quá trình unmount.
+
+```jsx
+useEffect(() => {
+   effect
+  return () => {
+      cleanup
+  }
+}, [input])
+```
+
+Dựa vào cách thức hoạt động của quá trình cleanup, ta có thể tận dụng nó để tối ưu application của chúng ta, đặt biệt là **việc tối ưu**, **làm giảm đi lượng bộ nhớ sử dụng**, cụ thể như:
+
+- Unsubscribe các observable (vd như socket event,... ), removeListener các Dom Event,...
+- Cancel http request.
+- Clear Timer API (clearTimeout, clearInterval, ...)
+
+Ta có thể hệ thống lại các quá trình của một Functional Component như sau:
+
+<img src={reactFlowImgSrc} alt="react-flow"/>
+
+> [https://github.com/donavon/hook-flow/blob/master/hook-flow.pdf](https://github.com/donavon/hook-flow/blob/master/hook-flow.pdf)
+>
+
+# A**synchronously useEffect Cleanup**
+
+Trước phiên bản React 17, thì quá trình cleanup của useEffect sẽ được thực thi trong giai đoạn [commit phase](https://reactjs.org/blog/2018/09/10/introducing-the-react-profiler.html#browsing-commits), tức là React sẽ thực thi các quá trình cleanup sau đó mới tiến hành update screen. Điều này không thực sự là hiệu quả về mặc hiệu suất đối với các ứng dụng lớn.
+
+Vì vậy, ở phiên bản thứ 17, React sẽ delay quá trình cleanup cho tới khi commit phase đã được hoàn thành.
+
+Ví dụ khi unmount thì quá trình cleanup sẽ được thực thi sau khi màn hình đã được update, tức là sau khi component đã không còn được hiển thị trên màn hình.
+
+Điều này sẽ dẫn đến vài “lỗi” ngoài ý muốn khi thực hiện quá trình cleanup, đặc biệt khi truy cập, tương tác với các Dom Element. Vị dụ đoạn code sau có thể xảy ra lỗi trong quá trình cleanup.
+
+```jsx
+useEffect(() => {
+  someRef.current.someSetupMethod();
+  return () => {
+    someRef.current.someCleanupMethod();
+  };
+});
+```
+
+ Bởi khi ta gắn ref vào 1 Dom Element, và thực thi một hàm “someCleanupMethod” của nó khi cleanup, thì có khả năng Dom Element này đã không còn tồn tại và đã được dọn dẹp và “someRef.current” lúc này có thể “null”
+
+Vì thế, để tránh điều này xảy ra, ta nên ngăn chặn cho giá trị không bị dọn dẹp đi bằng cách “capture” giá trị đó lại bên trong useEffect đó như sau (tìm hiểu thêm về cơ chế Garbage Collection): 
+
+```jsx
+useEffect(() => {
+  const instance = someRef.current;
+  instance.someSetupMethod();
+  return () => {
+    instance.someCleanupMethod();
+  };
+});
+```
+
+So, đây là một practice tốt và nên được luyện tập thành một thói quen, vì nếu có lỗi phát sinh về nguyên nhân này chúng ta sẽ khá khó để debug và xác định chính xác lỗi là do đâu.
+
+Có thể tham khảo thêm:
+
+1. Sử dụng React Cleanup: [https://blog.logrocket.com/understanding-react-useeffect-cleanup-function/](https://blog.logrocket.com/understanding-react-useeffect-cleanup-function/)
+2. Async Cleanup React 17: [https://blog.saeloun.com/2021/06/11/react-17-runs-useeffect-cleanup-asynchronously](https://blog.saeloun.com/2021/06/11/react-17-runs-useeffect-cleanup-asynchronously)
