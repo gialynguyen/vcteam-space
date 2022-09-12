@@ -6,6 +6,10 @@ const postImportResult = import.meta.glob('../content/**/*.mdx', {
 
 const posts = Object.values(postImportResult);
 
+const generateSlug = post => {
+  return post.file.split('/').reverse()[0].replace('.mdx', '');
+};
+
 export const get = () =>
   rss({
     title: 'VC-Team Blog',
@@ -14,7 +18,7 @@ export const get = () =>
     items: posts.map(post => ({
       title: post.title,
       description: post.desc,
-      link: post.slug,
+      link: generateSlug(post),
       pubDate: new Date(post.date),
     })),
     // (optional) inject custom xml
