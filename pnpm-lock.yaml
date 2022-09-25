@@ -22,6 +22,7 @@ importers:
       shiki: ^0.11.1
       tailwindcss: ^3.0.23
       theme-change: ^2.0.2
+      typescript: ^4.8.3
     dependencies:
       '@astrojs/mdx': 0.11.1_rollup@2.77.3
       '@astrojs/rss': 1.0.0
@@ -36,6 +37,7 @@ importers:
       shiki: 0.11.1
       tailwindcss: 3.1.8_postcss@8.4.16
       theme-change: 2.2.0
+      typescript: 4.8.3
 
 packages:
 
@@ -3624,6 +3626,12 @@ packages:
 
   /typescript/4.6.4:
     resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
+
+  /typescript/4.8.3:
+    resolution: {integrity: sha512-goMHfm00nWPa8UvR/CPSvykqf6dVV8x/dp0c5mFTMTIu0u0FlGWRioyy7Nn0PGAdHxpJZnuO/ut+PpQ8UiHAig==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true

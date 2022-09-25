@@ -9,6 +9,6 @@ const posts = published(markdownFiles);
 
 <Blog>
   <div>
-    {posts.map(p => <Preview post={p} />)}
+    {posts.map((p, index) => <Preview key={index} post={p} />)}
   </div>
 </Blog>
