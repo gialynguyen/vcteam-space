@@ -1,0 +1,238 @@
+import singleDatasource from './assets/single-datasource.png';
+import chatboxExample from './assets/chatbox.png';
+
+export const title = "When dont't use React useEffect";
+export const date = '2022-09-17';
+export const author = 'Gialynguyen-Steven';
+export const desc =
+  'Bài viết thảo luận về useEffect usecases và những sai lầm khi sử dụng useEffect sai mục đích';
+export const img =
+  'https://s3-ap-southeast-1.amazonaws.com/kipalog.com/76stxjgnc9_hook.png';
+export const imgWidth = 918;
+export const imgHeight = 395;
+
+Trong React 16.8, React team giới thiệu về khái niệm về "React hooks" cũng như cũng cấp các Hook APIs. Trong đó có `useEffect`.
+Theo giới thiệu trong [official docs](https://reactjs.org/docs/hooks-effect.html), `useEffect` cho phép thực hiện các `side effect` bên trong một `Functional Component`
+
+1. Thế `side effect` là thứ gì?
+
+Nói một cách ngắn gọn, một `operation`, `function` hay `expr` được cho rằng đang thực hiện một `side effect` khi nó đang làm thay đổi các `variable`, `value`, `state` nằm bên ngoài `local env` của chính nó.
+
+Ví dụ nhỏ như sau:
+
+```js
+const player = {
+  point: 1,
+};
+
+const increasePlayerPoint = () => {
+  player.point++;
+};
+
+increasePlayerPoint();
+```
+
+Khi lúc này ta có thể nói function `increasePlayerPoint` bên trong nó đang có `side effect`.
+
+([Thảo khảo thêm](<https://en.wikipedia.org/wiki/Side_effect_(computer_science)>))
+
+2. Thế khi nào bên trong `React Functional Component (RFC)` tồn tại `side effect`?
+
+Nói một cách ngắn gọn, `side effect` thông thường chỉ nên được sinh ra khi muốn "bước ra ngoài" RFC và để `synchronize` RFC với các `external` system khác.
+Khi này ta sẽ sử dụng `useEffect` để handle.
+
+`External` system ở đây có thể là bất cứ thứ gì nằm bên ngoài RFC như: `DOM`, `API Server`, `State Management`, ...
+
+Có thể đưa ra ví dụ đơn giản như sau:
+
+```jsx
+const ChatRoom = ({ id }) => {
+  // ...
+
+  useEffect(() => {
+    const unsubscribe = subscribe(`/chat/room/${id}`);
+
+    return () => {
+      unsubscribe();
+    };
+  }, [id]);
+
+  // ...
+};
+```
+
+thêm một cái khác nữa =)) :
+
+```jsx
+const ChatRoom = ({ id }) => {
+  const [filter, setFilter] = useState({});
+  // ...
+
+  useEffect(() => {
+    fetch(`/search`, {
+      method: 'POST',
+      body: JSON.stringify(filter),
+    });
+  }, [filter]);
+
+  // ...
+};
+```
+
+Nhưng nếu `useEffect` đơn giản như thế thôi thì nó đã không trở thành đề tài tranh cãi cũng như là "niềm đau" khi scale React codebase.
+Sau này là những sai lầm khi sử dụng `useEffect`, mình sẽ không đề cập đến các "sai lầm cơ bản" như về `cleanup` hay `dependencies` đâu, có thể `google` thêm giúp mình đoạn này nhan 😁.
+
+3. Sai lầm 1: Sử dụng `useEffect` như một `callback` sau khi thực hiện một `action` hay `event handler`
+
+Sai lầm đầu tiên là sử dụng useEffect như một `callback`, cụ thể như sau:
+
+```
+    Event handler ----> new state (setState) ----> useEffect ----> Do something
+```
+
+Có thể ví dụ như sau:
+
+```jsx
+const changeInputState = value => {
+  setInputState(value);
+};
+
+useEffect(() => {
+  props.onChange(inputState);
+}, [inputState, props.onChange]);
+
+return <input onChange={changeInputState} />;
+```
+
+Thứ sai trái đầu tiên là thứ bên trong `useEffect` kia không phải `side effect` và đơn thuần thứ mà đoạn code trên đang hướng tới chỉ là một `action`, một `behavior` của `event handler` là khi user change input mà thôi.
+Một cách đơn giản ta có thể xử lý như sau:
+
+```
+    Event handler ----> new state (setState) + (Do something)
+```
+
+```jsx
+const changeInputState = value => {
+  setInputState(value);
+  props.onChange(value);
+};
+
+return <input onChange={changeInputState} />;
+```
+
+4. Sai lầm 2: Sync Props to State
+
+Bạn có thể thấy đoạn code này ở đâu đó trước đâu:
+
+```jsx
+
+    const UserList = ({ users }) => {
+        const [displayUsers, setDisplayUsers] = useState([]);
+
+        useEffect(() => {
+            setDisplayUsers(users);
+        }, [users]);
+
+        return (
+            <div>
+                {displayUsers.map((user) => (
+                    // ...
+                ))}
+            </div>
+        )
+    }
+```
+
+Mọi thứ trong có vẻ vẫn OK, và vẫn work. Nhưng điều này làm tăng độ phức tạp hơn cho logic của bạn. Vì sao?
+Vì giờ bạn phải take cake 2 datasource đó là props và cả state. Thế nên bạn nên nhớ rằng:
+
+```
+    Single source of truth
+```
+
+Nghĩa là chỉ nên đơn giản hóa về duy nhất về 1 datasource thôi để giảm đi độ phức tạp của chương trình.
+Quay lại ví dụ trên, vì danh sách `user` được nhận từ `Props` thế nên việc sinh ra một `State` nữa chỉ để sync `1vs1` là dư thừa:
+
+```jsx
+
+    const UserList = ({ users }) => {
+        return (
+            <div>
+                {users.map((user) => (
+                    // ...
+                ))}
+            </div>
+        )
+    }
+```
+
+Ok, nói thì dễ nhưng lập trình không phải lúc nào cũng đơn giản như vậy =))
+
+- Thứ nhất, giả sử như ta transform `user` list trước khi render thì sao? Ok, lúc này đơn giản ta chỉ cần thực hiện nó trong quá trình `rendering` thôi:
+
+```jsx
+// Transform
+const displayUsers = users.map(user => {
+  // ...
+});
+
+// Calculate
+const count = users.length;
+
+return; // ...
+```
+
+Hoặc sử dụng với `useMemo` khi cần thiết:
+
+```jsx
+const displayUsers = useMemo(() =>
+  users.map(user => {
+    // ...
+  })
+);
+```
+
+<img src={singleDatasource} alt='single-datasource' />
+
+- Thứ 2, reset state khi props changed. Trước đây ta có thể thấy đoạn code như sau:
+
+```jsx
+const ChatInput = ({ channelId }) => {
+  const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    setInputValue('');
+  }, [channelId]);
+
+  // ...
+};
+
+// Use
+<ChatInput channelId={store.channelId} />;
+```
+
+Context ở đây ta có thể hình dung tương tự như Facebook Messenger: 
+
+<img src={chatboxExample} alt='single-datasource' />
+
+Ví dụ ta đang nhắn tin với `Tuấn` nhưng không muốn nhắn nữa và chuyển qua nhắn với `Tèo`. Thì khi ta `ChatInput` Component phải được `reset` state hiện tại đi.
+Đoạn code trên đơn nhiên vẫn hoàn thành đúng nhiệm vụ của nó. Nhưng điều này là không tối ưu vì khi `props.changeId` thay đổi thì input vẫn sẽ hiện thị kết quả cũ, sau khi effect thực thi,
+component lại phải re-render lại thì component mới thực hiện xong việc `reset`. Rõ ràng là khá dư thừa. Thay vào đó ta có thể "chỉ điểm" cho React biết rằng `ChatInput` bây giờ đã thuộc về
+một `context` mới, thuộc về `convension` hoàn toàn khác, và có thể nói là "1 instance" hoàn toàn mới của `ChatInput` Component. Để làm được điều đó ta cần chỉ ra cho React biết "dấu hiệu" để
+nhận biết khi nào ta cần React tạo 1 "instance" mới như vậy, và hướng approach là sẽ tận dụng `key`:
+
+```jsx
+  <ChatInput key={store.channelId} channelId={store.channelId} />;
+```
+
+Bất cứ khi nào `key`  thay đổi, React sẽ tạo lại DOM và đặt lại trạng thái của `Component` và tất cả `children` của nó. Do đó, `inputValue` state sẽ tự động `reset`.
+
+Các vấn đề chính yếu trên có thể được biến đổi với nhiều hình thức khác nhau trong quá trình phát triển phần mềm, và có thể tham khảo thêm tại
+https://beta.reactjs.org/learn/you-might-not-need-an-effect
+
+Nhưng tóm gọn lại cũng sẽ quy về 2 `sai lầm` chính bên trên.
+
+Cuối cùng, điều quan trọng nhất cần `keep in mind` đó là:
+```
+  Hãy cứ say "No" với useEffect khi vẫn còn cách tiếp cận khác.
+```
