@@ -4,10 +4,13 @@ import Navbar from '@components/Navbar';
 import Footer from '@components/Footer';
 import ThemeChange from '@components/ThemeChange';
 import Head from '@components/Head';
+
+const { title, desc, img } = Astro.props;
+
 ---
 
 <html lang='en'>
-  <Head>
+  <Head title={title} desc={desc} img={img}>
     <script src='https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js'
     ></script>
     <link rel='preconnect' href='https://fonts.googleapis.com' />

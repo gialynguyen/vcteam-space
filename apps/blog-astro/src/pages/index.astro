@@ -1,14 +1,18 @@
 ---
 import { published } from '@data/post';
-import Blog from '@layouts/blog';
+import Page from '@layouts/page';
 import Preview from '@components/blog/preview';
+
+import config from '@/config';
 
 const markdownFiles = await Astro.glob('../content/**/*.mdx');
 const posts = published(markdownFiles);
+
+const { title, desc, logo } = config;
 ---
 
-<Blog>
+<Page title={title} desc={desc} img={logo}>
   <div>
     {posts.map((p, index) => <Preview key={index} post={p} />)}
   </div>
-</Blog>
+</Page>

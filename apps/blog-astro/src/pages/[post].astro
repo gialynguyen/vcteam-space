@@ -3,7 +3,7 @@ import { published } from '@data/post';
 import Blog from '@layouts/blog';
 import Date from '@components/utilities/Date';
 
-export async function getStaticPaths({ rss }) {
+export async function getStaticPaths() {
   const markdownFiles = await Astro.glob('../content/**/*.mdx');
   const posts = published(markdownFiles);
 

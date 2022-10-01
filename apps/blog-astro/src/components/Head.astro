@@ -1,8 +1,7 @@
 ---
-import config from '@/config';
 
 let { twitterUsername } = Astro.props;
-const { title, desc, logo } = config;
+const { title, desc, img } = Astro.props;
 ---
 
 <head>
@@ -23,14 +22,14 @@ const { title, desc, logo } = config;
   <meta name='twitter:card' content='summary_large_image' />
   {title && <meta name='twitter:title' content={title} />}
   {desc && <meta name='twitter:description' content={desc} />}
-  <meta name='twitter:image' content={logo} />
+  <meta name='twitter:image' content={img} />
   {title && <meta name='twitter:image:alt' content={title} />}
   {twitterUsername && <meta name='twitter:site' content={twitterUsername} />}
   {twitterUsername && <meta name='twitter:creator' content={twitterUsername} />}
   <!-- og -->
   {title && <meta property='og:title' content={title} />}
   {desc && <meta property='og:description' content={desc} />}
-  <meta property='og:image' content={logo} />
+  <meta property='og:image' content={img} />
   {title && <meta property='og:image:alt' content={title} />}
   {title && <meta property='og:site_name' content={title} />}
   <meta property='og:type' content='object' />
