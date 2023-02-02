@@ -1,0 +1,107 @@
+import solidBg from './assets/solidjs_bg.png';
+import carTesla from './assets/car_tesla.webp';
+import feBg from './assets/fe-bg.jpeg';
+import performanceFE from './assets/so_sanh_1.png';
+import performanceSolidVsReact from './assets/so_sanh_2.png';
+
+export const title = 'Series SolidJS - Tập 1: SolidJS là gì vậy nhỉ';
+export const date = '2023-02-01';
+export const author = 'Pate Kem - @tunganh252';
+export const desc =
+  'Chào các bạn, trong series này chúng ta sẽ bắt tay cùng tìm hiểu cơ bản về SolidJS và các tính năng của công nghệ này nhé.';
+export const img = 'https://www.solidjs.com/og.jpg';
+export const imgWidth = 1200;
+export const imgHeight = 600;
+
+Chào các bạn, trong series này chúng ta sẽ bắt tay cùng tìm hiểu cơ bản về **[SolidJS](https://www.solidjs.com/)** và các tính năng của công nghệ này.\
+Sau đó chúng ta sẽ tìm hiểu về tính ứng dụng của **[SolidJS](https://www.solidjs.com/)** thông qua một vài ví dụ cơ bản nhé.
+
+Nhân dịp đầu năm mới **Quý Mão - 2023** mình chúc tất cả các bạn đang xem bài viết này có thật nhiều sức khỏe và luôn giữ cho mình một tinh thần đam mê học hỏi và nhiệt huyết với công nghệ nhé 🎉
+
+## Giới thiệu
+
+Nếu bạn là một nhà phát triển Web muốn tìm kiếm một công cụ mạnh mẽ để xây dựng các ứng dụng Web, hoặc đơn giản bạn chỉ muốn tìm hiểu về các công nghệ mới nhất hiện nay, chúng ta hãy cùng khám phá **[SolidJS](https://www.solidjs.com/)** ngay hôm nay!
+
+Đây là một Javascript UI Library mới rất linh hoạt và mạnh mẽ, được thiết kế để giúp các lập trình viên **Front-End** tạo ra những ứng dụng Web tốc độ cao ⚡️ và dễ dàng quản lý. Chúng ta sẽ tìm hiểu về tính năng, ưu điểm và lợi ích của công nghệ này, và tìm hiểu làm thế nào bạn có thể sử dụng nó để xây dựng những ứng dụng Web thật tuyệt vời!
+
+<img src={solidBg} alt='solidjs-background' />
+
+## SOLID + JS = SOLIDJS 🤔
+
+Không biết các bạn có giống như mình khi lần đầu tiên nhìn vào cái tên **[SolidJS](https://www.solidjs.com/)** thì đều liên tưởng ngay đến nguyên tắc [SOLID](https://en.wikipedia.org/wiki/SOLID) không nhỉ?
+
+Theo như chia sẻ từ tác giả **(Ryan Carniato - US)** vào buổi sáng ban mai ngày sinh nhật của tác giả, khi anh ấy thức dậy thì bỗng nhiên anh cảm nhận được một vầng hào quang và mặt trời chân lý chiếu qua tim mách bảo rằng:
+
+> Này Ryan, hãy theo đuổi và tạo ra một Javascript UI Library thật nhanh, thật mạnh nhưng vẫn rất linh hoạt để thỏa mãn đam mê trong cậu giống như Elon Musk đã từng tạo ra chiếc Tesla Model 3 gây sốt toàn cầu ấy.............. và thế là **[SolidJS](https://www.solidjs.com/)** ra đời. Có lẽ vì cái tên **_SOLID_** cũng đã thể hiện phần nào sự tập trung của tác giả khi muốn tạo ra 1 công nghệ có các tính chất chắc chắn, mạnh mẽ và cũng rất linh hoạt (như viên sỏi chẳng hạn)\
+> P/S: câu chuyện trên mình có thêm ít mắm ít muối vào nhé 🤪
+
+<img src={carTesla} alt='car-tesla' />
+
+Dự án của anh đã open source từ tháng 4 năm 2018 (ý tưởng được ấp ủ và phát triển từ 2016) và đã release phiên bản stable lần đầu vào 29/04/2021.
+
+Đến nay **SolidJS** đã release stable **v1.6** và đang được tài trở bởi nhiều tên tuổi lớn trong làng công nghệ như: **Vercel, CloudFlare, JetBrains, Netlify...**
+
+## Tính năng chung
+
+Cùng mình điểm danh những tính năng cơ bản của **[SolidJS](https://www.solidjs.com/)** nhé, Let's go:
+
+- Là 1 thư viện Javascript tạo nên giao diện người dùng, **SolidJS** trực tiếp cập nhật thay đổi UI trên **native DOM** (không dùng **[Virtual DOM](https://blog.logrocket.com/virtual-dom-react/)** như một vài Javascript UI Library/ Framework khác)
+- Cung cấp cơ chế **Reactive** chịu trách nhiệm cho việc theo dõi và tự động cập nhật thay đổi UI khi **State** hoặc **Props** thay đổi
+  và **Reactivity Primitives** gồm 3 thành phần cốt lõi là **Signal**, **Memo** và **Effect** _(mình sẽ đi sâu vào các khái niệm này ở tập sau của series nhé ^^)_
+- Áp dụng mô hình **[Component Based](https://www.geeksforgeeks.org/component-based-software-engineering/)** tạo nên các UI có khả năng tái sử dụng vô cùng linh hoạt với độ trễ thấp.
+- **SolidJS** sử dụng **JSX**: JavaScript XML là một cú pháp mở rộng cho phép lập trình viên viết HTML trong SolidJS dễ dàng (giống như ReactJS).
+- Hỗ trợ và cung cấp các **Lifecycle Methods** giúp anh em dev dễ dàng handle được các case xử lý data, logic, UI trong quá trình code.
+- **Custom Hook**: các bạn có thể tự tạo ra một hook mới với chức năng riêng biệt của nó. Việc này giúp tách phần code logic ra khỏi UI giúp code tường minh, dễ quản lý hơn, tránh lặp lại code và tái sử dụng.
+- **Hỗ trợ [Typescript](https://www.typescriptlang.org/)**, điều này cho phép các lập trình viên dễ dàng lựa chọn giữa Javascript thuần hoặc Typescript tùy thuộc vào dự án và yêu cầu.
+- **Hỗ trợ SSR** (Server Side Rendering) cho phép tải trang nhanh hơn và tăng tốc độ tải trang...
+- **Small size**: **SolidJS** có kích thước nhỏ, giúp tải trang nhanh và giảm thiểu tốn kém về tài nguyên.
+- Easy to learn: **SolidJS** vô cùng dễ tiếp cận và nếu như bạn đã có kinh nghiệm với **ReactJS** thì mình tin rằng việc tiếp cận với **SolidJS** sẽ vô cùng đơn giản 🤩
+
+## Tại sao mình lại chọn SolidJS thay vì.....
+
+- Điều khiến mình thích thú khi sử dụng **[SolidJS](https://www.solidjs.com/)** thay vì sử dụng **[ReactJS](https://reactjs.org/)**, **[VueJS](https://vuejs.org/)**, **[Svelte](https://svelte.dev/)** hay **[Angular](https://angular.io/)** đơn giản vì đây là 1 công nghệ mới 😆
+
+- Nói chứ ngoài việc là công nghệ mới ra thì **[SolidJS](https://www.solidjs.com/)** đem đến cho mình trải nghiệm rất tốt khi sử dụng lần đầu vì học và tiếp cận công nghệ này cực kì nhanh và dễ dàng
+
+- Kể cả bạn có là newbie khi mới tiếp cận các Library/Framework Front-End thì mình cam đoan rằng bạn chỉ cần có kiến thức nền tảng về **HTML/CSS và Javascript** là đã có thể dễ dàng học **[SolidJS](https://www.solidjs.com/)** _(Mình sẽ có thêm bài viết chia sẻ kỹ hơn cho các bạn mới bước chân vào ngành Front-End và chưa biết nên chọn học công nghệ nào hay phải học như thế nào nhé ^^)_
+
+<img src={feBg} alt='fe-bg' />
+
+- Bên cạnh đấy **[SolidJS](https://www.solidjs.com/)** cũng được cung cấp đầy đủ các thư viện để hỗ trợ về **Routing**, **Store Management** hay **Component UI Library** và các function hỗ trợ từ chính **SolidJS** cung cấp khá đầy đủ không thua kém gì nhiều so với các ông lớn như **ReactJS** hay **VueJS**...
+
+- Điều khiến mình hứng thú tiếp theo trong quá trình tìm tòi, học hỏi **[SolidJS](https://www.solidjs.com/)** là về **Performance** cực kỳ bá đạo mà **SolidJS** mang lại.
+
+> Theo bạn đâu là UI Library/Framework nhanh nhất? **Vue**, **React**, **Inferno**, **Svelte**, **lit-html**... Có rất nhiều thư viện đã được đề xuất và mỗi loại đều có điểm số **[Benchmarks](https://en.wikipedia.org/wiki/Benchmarking)** tốt của riêng nó
+
+- Với cá nhân mình thì mình tin tưởng và dựa vào tiêu chuẩn đánh giá từ [JS Frameworks Benchmark](https://github.com/krausest/js-framework-benchmark). Link so sánh Performance UI Library/ Framework theo phiên bản Chrome 109 - OSX mới nhất: https://krausest.github.io/js-framework-benchmark/2021/table_chrome_91.0.4472.77.html
+
+<img src={performanceFE} alt='performance-fe' />
+
+Mình sẽ so sánh cụ thể trường hợp về **scripting performance** và **bundle size** giữa **SolidJS vs ReactJS** (công nghệ đang được đông đảo công ty và lập trình viên sử dụng nhé) \
+Như hình dưới các bạn có thể thấy rõ hơn sự chênh lệch này (so sánh diễn ra ở cùng 1 điều kiện kịch bản code giống nhau)...
+
+<img src={performanceSolidVsReact} alt='performance-solid-vs-react' />
+https://www.webtips.dev/solidjs-vs-react
+
+## Đã có ưu thì phải có.... nhược điểm 👀
+
+- **Cộng đồng nhỏ** và chưa nhiều sự kết nối với nhau chắc chắn là một nhược điểm của **[SolidJS](https://www.solidjs.com/)** ở thời điểm **hiện tại**
+
+- Các thư viện hỗ trợ đi kèm đều có sẵn và sử dụng được nhưng **chưa có sự đa dạng** giúp người dùng có sự lựa chọn và so sánh trong quá trình sử dụng.
+
+- Tất nhiên với mỗi công nghệ mới đa phần đều mang lại ít nhiều cho người dùng **lo ngại về rủi ro**, các vấn đề như **bug** hay **rò rỉ thông tin** bla bla bla... điều này là không thể tránh khỏi 🔥.
+
+- Ở nước ngoài đã và đang dần có nhiều bài viết hơn về **[SolidJS](https://www.solidjs.com/)** cũng như các ví dụ cụ thể giúp cho người mới tiếp cận có cái nhìn bao quát hơn về công nghệ này nhưng ở Việt Nam thì **[SolidJS](https://www.solidjs.com/)** vẫn thực sự còn rất mới mẻ với đại đa số lập trình viên ^^
+
+## Mình tổng kết lại tập 1 nhé
+
+Đối với riêng bản thân mình thì **[SolidJS](https://www.solidjs.com/)** đang tạo sự hứng thú nhất định với mình và mình cũng đang bắt đầu viết những project cá nhân bằng **[SolidJS](https://www.solidjs.com/)**, nhưng để làm việc và đưa vào dự án thực tế cho cộng đồng hay công việc thì mình nghĩ chúng ta nên cần thêm thời gian để cộng đồng **[SolidJS](https://www.solidjs.com/)** phát triển hơn nữa nhé
+
+https://github.com/solidjs/solid Open Source trên Github của **[SolidJS](https://www.solidjs.com/)** cũng đã đạt >22k sao rồi, trong tương lai mình mong rằng **SolidJS** sẽ lại tiếp tục trở thành **"Unicorn 🦄"** mới trong giới FE như cách **VueJS** đã từng đạt được.
+
+> Bắt đầu từ tập sau của **Series SolidJS** chúng ta sẽ cùng bắt tay vào việc **khởi tạo Project** bằng **[SolidJS](https://www.solidjs.com/)** và cùng mình phân tích sâu hơn vào những tính năng đã được đề cập của **[SolidJS](https://www.solidjs.com/)** xem có điểm gì hay, độc đáo không nhé 😎
+
+---
+
+Trên đây đều là những thông tin xung quanh công nghệ mới mẻ dành cho các Front-End Developer mà cá nhân mình tìm hiểu được và chia sẻ\
+Nếu các bạn có điểm gì thắc mắc hoặc góp ý về bài viết hãy **comment** giúp mình nhé, cảm ơn các bạn 😘
