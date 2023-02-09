@@ -1,0 +1,251 @@
+export const title = '[Series] Learn Go Day 1';
+export const date = '2023-02-9';
+export const author = 'TrungPham-LiamPham';
+export const desc =
+  "Trong bài viết này, mình sẽ viết lại tất cả các kiến thức trong quá trình mình học. Let's go!!";
+export const img =
+  'https://www.freecodecamp.org/news/content/images/2021/10/golang.png';
+export const imgWidth = 918;
+export const imgHeight = 395;
+
+## Giới thiệu
+
+Trong bài viết này, mình sẽ viết lại tất cả các kiến thức trong quá trình mình học. Let's go!!!
+
+## Nội dụng
+
+### Khai báo biến
+
+Ta có 3 cách khai báo biến:
+
+```json
+1. var <name> <type>
+   => var one int; one = 1
+
+2. var <name> = <value>
+   => var one = 1
+
+3. <name> := <value>
+   => one := 1
+```
+
+> Lưu ý: Cách khai báo 2 và 3 nên dùng ở trong một function, còn cách khai báo 1 ta thường dùng để khai báo biến global cho toàn bộ code.
+
+Các biến được khai báo nhưng không có giá trị thì:
+
+```json
+0 for numeric types,
+false for the boolean type, and
+"" (the empty string) for strings.
+```
+
+### Sử dụng điều kiện if/else
+
+```go
+if <condition expression> {
+    // implement code
+} else if <condition expression> {
+    // implement code
+} else {
+    // implement code
+}
+```
+
+If rút gọn:
+
+```go
+func pow(x, n, lim float64) float64 {
+	if v := math.Pow(x, n); v < lim {
+		return v
+	}
+	return lim
+}
+```
+
+### Các loại dữ liệu
+
+```json
+bool
+
+string
+
+int  int8  int16  int32  int64
+uint uint8 uint16 uint32 uint64 uintptr
+
+byte // alias for uint8
+
+rune // alias for int32
+     // represents a Unicode code point
+
+float32 float64
+
+complex64 complex128
+```
+
+### Chuyển đổi loại dữ liệu
+
+Biểu thức T(v) chuyển đổi giá trị v thành kiểu T.
+
+```
+var i int = 42
+var f float64 = float64(i)
+var u uint = uint(f)
+```
+
+hoặc
+
+```
+i := 42
+f := float64(i)
+u := uint(f)
+```
+
+Nếu như chúng ta khai báo `:=` như thế này thì kiểu dữ liệu sẽ dựa vào value của biến đó:
+
+```
+i := 42           // int
+f := 3.142        // float64
+g := 0.867 + 0.5i // complex128
+```
+
+### Khai báo hàm
+
+Một hàm có thể nhận 0 hoặc nhiều đối số.
+
+Hàm Trả về 1 giá trị:
+
+```
+func add(x int, y int) int {
+	return x + y
+}
+```
+
+Hàm trả về nhiều giá trị:
+
+```
+func add(x , y int) (int, int) {
+	return x, y
+}
+```
+
+### Vòng lặp For
+
+For:
+
+```go
+sum := 0
+for i := 0; i < 10; i++ {
+	sum += i
+}
+```
+
+Continue:
+
+```go
+sum := 1
+for ; sum < 1000; {
+	sum += sum
+}
+```
+
+While:
+
+```go
+sum := 1
+for sum < 1000 {
+	sum += sum
+}
+```
+
+Nếu bạn bỏ qua điều kiện vòng lặp, nó sẽ lặp mãi mãi.
+
+```go
+for {
+}
+```
+
+### Switch
+
+Có điều kiện:
+
+```go
+import (
+	"fmt"
+	"runtime"
+)
+
+switch os := runtime.GOOS; os {
+	case "darwin":
+		fmt.Println("OS X.")
+	case "linux":
+		fmt.Println("Linux.")
+	default:
+		// freebsd, openbsd,
+		// plan9, windows...
+		fmt.Printf("%s.\n", os)
+}
+```
+
+Không có điều kiện:
+
+```go
+import (
+	"fmt"
+	"time"
+)
+
+
+t := time.Now()
+switch {
+case t.Hour() < 12:
+	fmt.Println("Good morning!")
+case t.Hour() < 17:
+	fmt.Println("Good afternoon.")
+default:
+	fmt.Println("Good evening.")
+}
+```
+
+### Defer
+
+Defer là 1 tính năng của Go, cho phép gắn 1 hàm để thực hiện sau khi hàm chính thực hiện xong.
+
+```go
+import "fmt"
+
+func main() {
+	defer fmt.Println("world")
+
+	fmt.Println("hello")
+}
+```
+
+**Stacking defers**: là các hàm được gọi nhưng chưa được thực hiện và bị đẩy lên stack. Khi hàm chính thực hiện xong, các hàm chưa thực hiện nó sẽ được chạy theo thứ tự LIFO ( Last-In-First-Out ).
+
+```go
+import "fmt"
+
+func main() {
+	fmt.Println("counting")
+
+	for i := 0; i < 10; i++ {
+		defer fmt.Println(i)
+	}
+
+	fmt.Println("done")
+}
+```
+
+## Tổng kết
+
+Vậy là sau 1 ngày mình đã học được:
+
+- cách khai báo biến
+- câu lệnh if/else
+- các kiểu dữ liệu
+- khai báo hàm.
+- Vòng lặp For
+- Switch
+- Defer, Stacking Defer
+
+Cám ơn các bạn đã theo dõi bài viết của mình. Chúc các bạn 1 ngày vui vẻ. Tks
