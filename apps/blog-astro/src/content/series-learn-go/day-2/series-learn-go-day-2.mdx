@@ -1,0 +1,237 @@
+export const title = '[Series] Learn Go Day 2';
+export const date = '2023-02-11';
+export const author = 'TrungPham-LiamPham';
+export const desc =
+  "Hello everyone, chúng ta tiếp tục học Go ngày 2 nhé. Let's go!!!";
+export const img =
+  'https://www.freecodecamp.org/news/content/images/2021/10/golang.png';
+export const imgWidth = 918;
+export const imgHeight = 395;
+
+## Giới thiệu
+
+Hello everyone, chúng ta tiếp tục học Go ngày 2 nhé. Let's go!!!
+
+## Nội dung
+
+### Pointers
+
+Pointer là một biến chứa địa chỉ của một vùng nhớ trong bộ nhớ. Thay vì lưu trực tiếp giá trị vào biến, ta có thể lưu trữ địa chỉ của giá trị đó và sử dụng con trỏ để truy cập đến giá trị đó. Việc sử dụng con trỏ trong Go có thể giúp cải thiện hiệu suất và tiết kiệm bộ nhớ so với việc sao chép dữ liệu giữa các biến.
+
+Để tạo một con trỏ, bạn sử dụng toán tử **"&"** để lấy địa chỉ của một biến, và toán tử **"\*"** để truy cập giá trị tại địa chỉ đó.
+
+cú pháp:
+
+- Toán tử **"&"**:
+  ```go
+  i := 42
+  p = &i
+  ```
+- Toán tử **"\*"**:
+  ```go
+  g := *p
+  ```
+
+Ví dụ:
+
+```go
+import "fmt"
+
+func main() {
+	i, j := 42, 2701
+
+	p := &i         // point trỏ tới địa chỉ ô nhớ của i
+	fmt.Println(*p) // kết quả => 42
+	*p = 21         // gán giá trị vào ô nhớ
+	fmt.Println(i)  // kết quả => 21
+
+	p = &j         // gán point trỏ tới địa chỉ ô nhớ của j
+	*p = *p / 37   // gán giá trị vào ô nhớ
+	fmt.Println(j) // kết quả => 73
+}
+```
+
+### Structs
+
+Struct là một kiểu dữ liệu (composite data type) cho phép bạn định nghĩa một tập hợp các trường (fields) có kiểu dữ liệu khác nhau. Nó giúp bạn tổ chức và lưu trữ các dữ liệu có liên quan với nhau trong cùng một đối tượng.
+
+```go
+type Vertex struct {
+	X int
+	Y int
+}
+
+func main() {
+	fmt.Println(Vertex{1, 2})
+}
+```
+
+Chúng ta có thể tạo một đối tượng **Vertex** bằng cách gán giá trị cho các trường dữ liệu của struct.
+
+```go
+vertex := Vertex{
+  Y: 100,
+  X: 200,
+}
+```
+
+Chúng ta có thể truy cập và gán giá trị cho các trường dữ liệu của struct bằng cách sử dụng toán tử **"."**.
+
+```go
+vertex.Y = 200
+vertex.X = 300
+```
+
+Chúng ta có thể truy cập và sửa đổi nội dung của struct bằng cách sử dụng Pointer.
+
+```go
+v := Vertex{1, 2}
+p := &v
+p.X = 400
+```
+
+### Arrays
+
+Một mảng được khai báo bằng cách chỉ định loại dữ liệu được lưu trữ và độ dài của mảng.
+
+Cú pháp:
+
+```go
+var <name> [lenght]<type>
+```
+
+ví dụ: Tạo mảng a có chiều dài là 10 với các phần tử kiểu int.
+
+```go
+var a [10]int
+```
+
+> Lưu ý: Một khi khai báo, chiều dài và kiểu dữ liệu của mảng thì không thể thay đổi. Nếu muốn thay đổi chiều dài, phải tạo mảng mới và sao chép dữ liệu từ mảng cũ.
+
+#### Zero value
+
+Khi khai báo một mảng mà không gán giá trị, toàn bộ phần tử sẽ được gán giá trị mặc định theo kiểu dữ liệu (int = 0, string = "").
+
+Ví dụ: mảng [5]int sẽ có tất cả các phần tử có giá trị 0.
+
+![init-array.png](https://images.viblo.asia/43ae4cf7-5615-475b-96a2-06c20c76af9e.png)
+
+#### Literal
+
+```go
+array := [5]int{10, 20, 30, 40, 50}
+```
+
+#### Calculating Size
+
+Nếu độ dài được cho là **"..."**, Go sẽ xác định độ dài của mảng dựa trên số phần tử được khởi tạo.
+
+```go
+array := [...]int{10, 20, 30, 40, 50}
+```
+
+#### Specific elements
+
+Nếu bạn biết độ dài của mảng mình cần, nhưng chỉ khởi tạo các phần tử cụ thể, bạn có thể sử dụng cú pháp này.
+
+```go
+array := [5]int{1: 10, 2: 20}
+```
+
+#### Pointer elements
+
+Bạn có thể có một mảng các con trỏ. Bạn sử dụng toán tử \* để truy cập giá trị mỗi con trỏ mà phần tử trỏ tới.
+
+```go
+array := [5]*int{0: new(int), 1: new(int)}
+
+*array[0] = 10
+*array[1] = 20
+```
+
+Các giá trị của mảng được khai báo trong **array** trông giống như hình dưới đây:
+![Screenshot 2023-02-11 at 18.13.11.png](https://images.viblo.asia/ee1cca29-ce19-4dcf-b8cd-e7b237cb392d.png)
+
+Một mảng là một giá trị trong Go. Điều này có nghĩa là bạn có thể sử dụng nó trong một thao tác gán. Do đó, một mảng có thể được gán cho các mảng khác cùng loại và cùng độ dài.
+
+```go
+var array1 [5]int
+array2 := [5]int{1, 2, 3, 4, 5}
+array1 = array2
+```
+
+Còn đối với Pointer thì khi chúng ta gán là gán các địa chỉ ô nhớ của con trỏ chứ không phải các giá trị mà con trỏ đang trỏ tới.
+
+```go
+var array1 [3]*string
+
+array2 := [3]*string{new(string), new(string), new(string)}
+
+*array2[0] = "Red"
+*array2[1] = "Blue"
+*array2[2] = "Green"
+
+array1 = array2
+```
+
+Nó trông giống như hình dưới đây:
+![Screenshot 2023-02-11 at 18.29.00.png](https://images.viblo.asia/62731dd2-f99f-4a30-95f5-2442ef3a5632.png)
+
+#### Multidimensional array ( mảng đa chiều )
+
+Multidimensional là một cấu trúc dữ liệu cho phép lưu trữ các phần tử dưới dạng bảng nhiều chiều. Mỗi phần tử trong mảng đa chiều được xác định bởi nhiều chỉ số được gọi là các chỉ mục.
+
+```go
+ // initialize
+var array [4][2]int
+
+// literal & initialize
+array := [4][2]int{{10, 11}, {20, 21}, {30, 31}, {40, 41}}
+
+// Declare & initialize outer array
+array := [4][2]int{1: {20, 21}, 3: {40, 41}}
+
+// Declare & initialize outer and inner array
+array := [4][2]int{1: {0: 20}, 3: {1: 41}}
+```
+
+Giống như hình dưới đây:
+![Screenshot 2023-02-11 at 18.46.12.png](https://images.viblo.asia/034ce08c-7d4b-445f-a409-8c501f6bbd9c.png)
+
+#### Passing arrays between functions
+
+Khi truyền một mảng giữa các hàm, có thể tốn nhiều bộ nhớ và ảnh hưởng đến hiệu suất. Mảng được truyền bằng cách sao chép toàn bộ mảng vào hàm với bất kể kích thước nào của nó.
+
+```go
+// Khai báo 1 mảng 8 megabytes.
+var num [1e6]int
+
+handleNum(num)
+
+func handleNum(num [1e6]int) {
+    ...
+}
+```
+
+Khi gọi hàm **handleNum** với một mảng **8 megabytes**, toàn bộ mảng sẽ được sao chép và cấp phát trên ngăn xếp, tốn nhiều bộ nhớ và ảnh hưởng đến hiệu suất. Cách tốt hơn là truyền một con trỏ đến mảng và để chỉ sao chép **8 byte**.
+
+```go
+var num [1e6]int
+
+handleNum(&num)
+
+func handleNum(num *[1e6]int) {
+    ...
+}
+```
+
+## Tổng kết
+
+Vậy là sau 1 ngày mình đã học được:
+
+- Pointers
+- Structs
+- Arrays
+
+Nếu có thắc mắc hoặc cần giải thích rõ thêm chỗ nào thì các bạn có thể comment ở dưới.
+Cám ơn các bạn đã theo dõi bài viết của mình. Chúc các bạn có 1 ngày vui vẻ. Tks
