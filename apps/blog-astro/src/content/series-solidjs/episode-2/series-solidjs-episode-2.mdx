@@ -1,0 +1,158 @@
+import app from './assets/app.png';
+import source from './assets/source_code.png';
+import exam from './assets/example.png';
+
+export const title =
+  'Series SolidJS - Tập 2: Khởi tạo project SolidJS và cùng xem có gì trong đó nhé.';
+export const date = '2023-02-06';
+export const author = 'Pate Kem - @tunganh252';
+export const desc =
+  'Chào các bạn, trong tập này chúng ta sẽ bắt tay cùng tạo 1 project cơ bản về SolidJS và tìm hiểu về nó nhé.';
+export const img = 'https://www.solidjs.com/og.jpg';
+export const imgWidth = 1200;
+export const imgHeight = 600;
+
+## Giới thiệu
+
+Hello everyone, chúng ta lại gặp nhau nữa rồi ✌️
+
+Tập trước trong series mình đã chia sẻ những thông tin xung quanh quanh công nghệ **[SolidJS](https://www.solidjs.com/)**.
+
+Ở tập này mình và các bạn sẽ cùng nhau khởi tạo project cơ bản bằng **[SolidJS](https://www.solidjs.com/)** và phân tích vào các chức năng đã được giới thiệu ở tập trước nhé.
+
+## Nội dung
+
+Đây là nội dung mình sẽ giới thiệu trong tập này, let's go 🔥
+
+- 🖥️ Khởi tạo project SolidJS (sử dụng **Vite**): https://github.com/solidjs/templates
+- 🎬 Vọc vạch về **[JSX - Javascript XML](https://www.solidjs.com/tutorial/introduction_jsx)** trong SolidJS
+- 🚛 Cách hoạt động cơ bản của ứng dụng SolidJS
+
+---
+
+### Khởi tạo project **SolidJS**:
+
+Mình sẽ tạo project **[SolidJS](https://www.solidjs.com/)** (sử dụng **[Vite](https://vitejs.dev/)**) đi với **Javascript** thuần nhé.
+
+📝 Note: **[Vite](https://vitejs.dev/)** là một **Frontend Build Tool** giúp thực hiện việc khởi tạo và setup các project FE nhanh chóng và dễ dàng ⚡️ (Vite được tạo ra bởi cha đẻ của **VueJS** - **Evan You**)
+
+```bash
+# Create an app from a Solid template (Tạo mới ứng dụng từ Solid template)
+npx degit solidjs/templates/js my-app
+
+# Change directory to the project created (Di chuyển đến thư mục ứng dụng đã tạo)
+cd my-app
+
+# Install dependencies (Cài đặt các thành phần cần thiết để start ứng dụng)
+npm i # or yarn or pnpm
+
+# Start the dev server (Chạy ứng dụng trên môi trường dev)
+npm run dev
+```
+
+> https://github.com/solidjs/templates có hỗ trợ TypeScript, vì vậy nếu bạn muốn bắt đầu tạo project với TypeScript, hãy thay đổi câu lệnh thành `npx degit solidjs/templates/ts my-app`.
+
+Đây là thành quả sau khi đã chạy lệnh `npm run dev` thành công nhé _(truy cập vào đường dẫn http://localhost:3000/)_
+
+<img src={app} alt='app' />
+
+_Cấu trúc thư mục:_
+
+<img src={source} alt='source' />
+
+Nếu bạn đã từng học qua **[ReactJS](https://reactjs.org/)** và có biết đến câu thần chú `create-react-app` thì sẽ thấy cấu trúc source code, syntax của **[SolidJS](https://www.solidjs.com/)** quen thuộc đúng không nào?
+
+Đúng vậy bạn không nhầm đâu, cả ReactJS lẫn SolidJS đều khá giống nhau đấy kkk 😂
+
+### Vọc vạch về **[JSX - Javascript XML](https://www.solidjs.com/tutorial/introduction_jsx)**
+
+Hãy cùng mình xem 1 ví dụ bên dưới nhé
+
+```jsx
+import { render } from 'solid-js/web';
+
+const HelloEveryone = () => {
+  return <div>Hello everyone, my name is Pate Kem.</div>;
+};
+
+render(() => <HelloEveryone />, document.getElementById('root'));
+```
+
+Trong hình trên bạn hãy chú ý đến hàm **`HelloEveryone`**, nó trực tiếp trả về một thẻ **`<div> nội dung... </div>`** có chứa nội dụng bên trong.
+
+Mỗi ứng dụng SolidJS sẽ bao gồm các chức năng được gọi là các thành phần (**Components**).
+
+Đó là sự kết hợp giữa **HTML** và **JavaScript** được gọi là **JSX**. Solid sẽ vận chuyển chúng đi qua một trình biên dịch để biến các thẻ này thành các nút DOM (DOM nodes) hiển thị lên giao diện.
+
+**JSX** cho phép bạn sử dụng hầu hết các phần tử **HTML**, nó cũng cho phép bạn tạo ra các phần tử mới. Khi chúng ta đã khai báo hàm **`HelloEveryone`**, chúng ta có thể sử dụng nó làm thẻ **`<HelloEveryone>`** trong chính ứng dụng của mình (\*hay còn gọi là **Component\***).
+
+### Cách hoạt động cơ bản của ứng dụng **SolidJS**
+
+Mình sẽ dùng lại code mẫu ở trên để miêu tả cụ thể cách thức hoạt động đơn giản của nó nhé.
+
+```jsx
+import { render } from 'solid-js/web';
+
+const HelloEveryone = () => {
+  return <div>Hello everyone, my name is Pate Kem.</div>;
+};
+
+render(() => <HelloEveryone />, document.getElementById('root'));
+```
+
+Ở đây chúng ta sẽ thấy được hàm **`render`** có cú pháp (syntax) tương tự như hàm **`render`** trong **ReactJS** 👀
+
+Đây là hàm chức năng chính của **SolidJS** để kết xuất lại **Components** sau đấy thể hiện trên giao diện ứng dụng (**DOM - Document Object Model**)
+
+Chúng ta cần cung cấp **2 đối số** cho hàm **`render`**:
+
+- Một **Component** đóng gói mã ứng dụng
+- Một phần tử hiện có trong giao diện **HTML** để gắn vào
+
+```jsx
+render(
+  () => <HelloEveryone />, // đối số 1
+  document.getElementById('root') // đối số 2
+);
+```
+
+<img src={exam} alt='exam' />> Các bạn hãy mở file `index.jsx` + file
+`index.html` trong source vừa tạo và bạn sẽ thấy thẻ `<div id='root'></div>`, đó
+chính là nơi sẽ render ra ứng dụng của bạn.
+
+Dựa theo đoạn code trên, nó sẽ được **SolidJS** biên dịch thành các biểu thức trên **DOM** thực, trông nó sẽ giống như sau:
+
+```jsx
+import { template, render, createComponent } from 'solid-js/web';
+
+const _tmpl = template(`<div>Hello everyone, my name is Pate Kem.</div>`, 2);
+
+const HelloEveryone = () => {
+  return _tmpl.cloneNode(true);
+};
+
+render(
+  () => createComponent(HelloEveryone, {}),
+  document.getElementById('root')
+);
+```
+
+> [Solid Playground](https://playground.solidjs.com/) khá thú vị khi cho ta thấy **SolidJS** có nhiều cách khác nhau để `render`: _CSR - Client side rendering, SSR - Server side rendering, Client side rendering with hydration._
+
+## Tổng kết lại tập 2 thôi nào
+
+Ở tập 2 này chúng ta đã bắt đầu tìm hiểu về syntax code và cách 1 ứng dụng SolidJS hoạt động cơ bản như thế nào 😎
+
+Trong tập sau mình sẽ cùng đi vào phần tiếp theo về **Reactivity primitives** nhé:
+
+- 📥 **[Reactivity primitives](https://www.solidjs.com/guides/reactivity)**
+  - _Signals_
+  - _Effects_
+  - _Memo_
+
+Cảm ơn các bạn đã theo dõi tập 2 trong series về **[SolidJS](https://www.solidjs.com/)** 😘
+
+### Tham khảo
+
+- https://www.solidjs.com/guides/getting-started
+- https://www.solidjs.com/tutorial/introduction_basics
