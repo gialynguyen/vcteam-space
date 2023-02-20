@@ -1,0 +1,246 @@
+import mainBG from './assets/main-bg.jpeg';
+import demo1 from './assets/demo1.png';
+import demo2 from './assets/demo2.png';
+import demo3 from './assets/demo3.png';
+
+export const title =
+  'Series SolidJS - Tập 3: Reactivity primitives trong SolidJS.';
+export const date = '2023-02-10';
+export const author = 'Pate Kem - @tunganh252';
+export const desc =
+  'Chào các bạn, trong bài viết này mình và các bạn sẽ cùng tìm hiểu về 📥 Reactivity primitives của SolidJS nhé.';
+export const img = mainBG;
+export const imgWidth = 1200;
+export const imgHeight = 600;
+
+## Giới thiệu
+
+Hello everyone, chúng ta lại gặp nhau nữa rồi ✌️\
+Tập trước trong series mình đã chia sẻ về cách khởi tạo project **[SolidJS](https://www.solidjs.com/)** và cách hoạt động cơ bản của 1 ứng dụng SolidJS.
+
+Trong tập 3 này mình và các bạn sẽ cùng tìm hiểu về 📥 **[Reactivity primitives](https://www.solidjs.com/guides/reactivity)** của **[SolidJS](https://www.solidjs.com/)** nhé.
+
+## Nội dung
+
+- 📥 **[Reactivity primitives](https://www.solidjs.com/guides/reactivity)**
+  - _Signals_
+  - _Effects_
+  - _Memo_
+
+**"Reactivity primitives"** là một khái niệm trong lập trình web và là một phần của các kỹ thuật xử lý tương tác của người dùng trên giao diện. Nó bao gồm các phương thức cơ bản để **xử lý các sự kiện tương tác và cập nhật giao diện** theo thời gian thực.
+
+`Vd: thao tác nhấn vào một nút trên web là một phương thức tương tác cơ bản và có thể được sử dụng để xử lý sự kiện nhấp chuột hoặc gõ từ bấm phím.`
+
+---
+
+### **[Reactivity primitives](https://www.solidjs.com/guides/reactivity)** - Signals là gì?
+
+Là một trong những định nghĩa nền tảng của **reactivity primitives** trong Solid, nó thể hiện 1 trạng thái, 1 giá trị, 1 chức năng, dữ liệu hay tín hiệu mà bạn cần thể hiện trong giao diện...
+
+khi bạn thay đổi giá trị của **signals**, nó sẽ tự động cập nhật đến bất kì nơi nào và bất kì thứ gì đang sử dụng giá trị của **signals** đó.
+
+Khởi tạo 1 signals:
+
+```jsx
+import { createSignal } from 'solid-js';
+
+const [count, setCount] = createSignal(0);
+```
+
+Ở đây chúng ta có thể hiểu như sau:
+
+- Đối số mang giá trị **`0`** được truyền cho hàm **`createSignal()`** được gọi là **giá trị khởi tạo**.
+- Giá trị trả về là một mảng có gồm hai hàm chức năng. Sử dụng **destructuring** trong Javascript để có thể thể đặt tên cho các function này. Mình đặt tên cho hàm getter là `count` và setter là `setCount` nhé.
+- Ở ví dụ trên nếu chúng ta muốn log ra giá trị `count` thì sẽ không được, thay vào đấy chúng ta phải gọi hàm `count()` để nhận được giá trị trả về như mong muốn.
+
+```jsx
+console.log(count); // không trả về giá trị
+console.log(count()); // 0
+```
+
+- Hàm `setCount()` dùng để cập nhật lại giá trị trả về (số đếm)
+
+```jsx
+// Chúng ta có 2 cách viết như sau
+setCount(count() + 1);
+setCount(c => c + 1);
+```
+
+> Bạn có thấy syntax giống trong ReactJS không? 😁
+> Hãy comment cho mình biết Signals có gì giống hay khác với **`useState`** trong **ReactJS** nhé.
+
+### **[Reactivity primitives](https://www.solidjs.com/guides/reactivity)** - Effects là gì?
+
+Signals là các giá trị mà ta có thể theo dõi và sử dụng, nhưng chúng chỉ là một nửa của câu chuyện.
+
+**Effects** thực thi dựa vào sự thay đổi giá trị của Signals. Lúc này **Effects** tạo ra một `side effect` (tác dụng phụ) phụ thuộc vào tín hiệu Signals.
+
+```jsx
+const [count, setCount] = createSignal(0);
+
+createEffect(() => {
+  console.log('The count is now', count());
+});
+```
+
+Mình có 1 ví dụ nhỏ về việc đếm số như sau:
+
+```jsx
+import { render } from 'solid-js/web';
+import { createSignal, createEffect } from 'solid-js';
+
+function Counter() {
+  const [count, setCount] = createSignal(0);
+
+  createEffect(() => {
+    console.log('The count is now', count());
+  });
+
+  return (
+    <button onClick={() => setCount(count() + 1)}>Click Me {count()}</button>
+  );
+}
+
+render(() => <Counter />, document.getElementById('app'));
+```
+
+> Các bạn có thể copy đoạn code trên và paste vào https://playground.solidjs.com/ để chạy vd trực tiếp nhé, hoặc bạn có thể thử ngay trên chính source code đã tạo ở tập trước ^^
+
+Mình sẽ giải thích vd trên như sau:
+
+- Chúng ta đã khởi tạo 1 Signals với giá trị là 0
+- Sau đấy tiếp tục chúng ta sử dụng hàm **createEffect()** và truyền vào trong đó 1 function để log (hiển thị trên `tab Console`) ra giá trị số đếm hiện tại `count()`
+- Tiếp đến ở phần giao diện ta có 1 button, khi click sẽ tăng số đếm lên +1 đơn vị
+
+Khi chúng ta sử dụng hàm **createEffect()** nó sẽ luôn tạo ra 1 phản ứng phụ (side effect) để cho ta biết được giá trị `count()` thay đổi ra sao
+
+Trước khi chúng ta click vào button `Click Me` thì side effect này đã được thực thi và nó đã `console.log("The count is now", count())` ra giá trị khởi tạo **(initial value)** ban đầu chính là số **`0`**
+
+<img src={demo1} alt='demo1' />
+
+Tiếp sau đấy mỗi lần chúng ta click vào button `Click Me` thì giá trị số đếm `count()` sẽ tăng lên 1 đơn vị --> cũng đồng nghĩa với việc xảy ra 1 side effect (phản ứng phụ) `console.log("The count is now", count())`
+
+<img src={demo2} alt='demo2' />
+
+---
+
+> Bạn cũng có thể sử dụng nhiều hàm **createEffect()**, mỗi Effect sẽ sinh ra `side effect` theo từng Signal trong cùng 1 **`Component <Counter />`**
+
+```jsx
+import { render } from 'solid-js/web';
+import { createSignal, createEffect } from 'solid-js';
+
+function Counter() {
+  const [count, setCount] = createSignal(0);
+  const [name, setName] = createSignal('Tùng Anh Nguyễn');
+
+  createEffect(() => {
+    console.log('The count is now', count());
+  });
+
+  createEffect(() => {
+    console.log('My name is ', name());
+  });
+
+  const handleClick = () => {
+    // Cách update signal gọi trực tiếp hàm getter là count()
+    setCount(count() + 1);
+
+    // Signal chấp nhận 1 hàm sử dụng giá trị trước đó đặt cho giá trị tiếp theo.
+    setName(name => name + ' (Jeremy)');
+  };
+
+  return (
+    <button onClick={handleClick}>
+      Click Me: {name()} - {count()}
+    </button>
+  );
+}
+
+render(() => <Counter />, document.getElementById('app'));
+```
+
+<img src={demo3} alt='demo3' />
+
+### **[Reactivity primitives](https://www.solidjs.com/guides/reactivity)** - Memos là gì?
+
+Hầu hết các công việc chúng ta gặp phải đều có thể sử dụng Signals là đủ yêu cầu. Tuy nhiên đôi lúc chúng ta sẽ gặp phải những trường hợp phải xử lý các công việc lặp đi lặp lại. Vậy đâu là giải pháp? 🧐
+
+**`createMemo`** tạo ra tín hiệu (Signal) với công việc chính là đọc, tính toán lại giá trị của nó bất cứ khi nào giá trị có sự thay đổi, cập nhật.
+
+Chúng ta sẽ sử dụng **`createMemo`** khi muốn lưu vào bộ nhớ đệm một số giá trị và truy cập chúng mà không cần xem xét việc truy xuất lại chúng, cho đến khi một giá trị phụ thuộc (dependence) thay đổi.
+
+---
+
+Ví dụ: mình muốn hiển thị số đếm `count()` 100 lần và cập nhật giá trị số đếm khi nhấp vào nút (button) ---> sử dụng **`createMemo()`** sẽ cho phép việc tính toán lại chỉ xảy ra một lần cho mỗi lần click
+
+```jsx
+import { render } from 'solid-js/web';
+import { createSignal, createMemo } from 'solid-js';
+
+function Counter() {
+  const [count, setCount] = createSignal(0);
+  // Nếu chúng ta không bọc nó trong createMemo
+  // Việc tính toán và thể hiện giá trị sẽ xảy ra 100 lần cho mỗi lần click
+  // const counter = () => {
+  //    return count();
+  // }
+
+  // Ngược lại nếu chúng ta bọc nó trong createMemo
+  // Việc tính toán lại và thể hiện giá trị chỉ xảy ra một lần cho mỗi lần click
+  const counter = createMemo(() => {
+    return count();
+  });
+
+  return (
+    <>
+      <button onClick={() => setCount(count() + 1)}>Count: {count()}</button>
+      <div>1. {counter()}</div>
+      <div>2. {counter()}</div>
+      <div>3. {counter()}</div>
+      <div>4. {counter()}</div>
+      <div>5. {counter()}</div>
+
+      <p>95 more times...</p>
+    </>
+  );
+}
+
+render(() => <Counter />, document.getElementById('app'));
+```
+
+```jsx
+// Nếu chúng ta không bọc nó trong createMemo
+// Việc tính toán và thể hiện giá trị sẽ xảy ra 100 lần cho mỗi lần click
+const counter = () => {
+  return count();
+};
+
+// Ngược lại nếu chúng ta bọc nó trong createMemo
+// Việc tính toán lại và thể hiện giá trị chỉ xảy ra một lần cho mỗi lần click
+const counter = createMemo(() => {
+  return count();
+});
+```
+
+Điều này rất có lợi cho việc tính toán và sử dụng bộ nhớ của các effect, dữ liệu có các thành phần phụ thuộc và hơn hết là **giảm thiểu công việc** cần phải làm **cho các hoạt động tốn kém** hiệu suất như tạo DOM, tính toán giá trị....
+
+## Tổng kết lại tập 3 thôi nào
+
+Tập 3 này chúng ta đã cùng tìm hiểu về các tính năng chính của **[Reactivity primitives](https://www.solidjs.com/guides/reactivity)** như _Signals_, _Effects_ và _Memos_
+
+Trong tập sau mình sẽ cùng đi vào phần tiếp theo:
+
+🔄 **[Lifecycle methods](https://www.solidjs.com/docs/latest/api#lifecycles)**
+
+- _onMount_
+- _onCleanup_
+- _onError_
+
+Cảm ơn các bạn đã theo dõi tập 3 trong series về **[SolidJS](https://www.solidjs.com/)**.
+
+### Tham khảo
+
+https://www.solidjs.com/tutorial/introduction_signals
+https://www.solidjs.com/tutorial/introduction_effects
+https://www.solidjs.com/tutorial/introduction_memos
