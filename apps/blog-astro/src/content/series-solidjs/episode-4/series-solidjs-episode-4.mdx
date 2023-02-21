@@ -1,0 +1,210 @@
+import mainBG from './assets/main_bg.png';
+import img1 from './assets/1.png';
+import img2 from './assets/2.png';
+import img3 from './assets/3.png';
+import img4 from './assets/4.png';
+import img5 from './assets/5.png';
+
+export const title =
+  'Series SolidJS - Tập 4: Lifecycle (Vòng đời) trong SolidJS';
+export const date = '2023-02-13';
+export const author = 'Pate Kem - @tunganh252';
+export const desc =
+  'Chào các bạn, trong tập này Tập này mình và các bạn sẽ cùng nhau tìm hiểu thêm về 1 khái niệm mới là Lifecycle SolidJS nhé.';
+export const img = mainBG;
+export const imgWidth = 1200;
+export const imgHeight = 600;
+
+## I. Giới thiệu
+
+Hello everyone, chúng ta lại gặp nhau nữa rồi ✌️\
+Tập trước trong series mình đã chia sẻ về **Reactivity primitives** trong **[SolidJS](https://www.solidjs.com/)** và cách chúng hoạt động.
+
+Tập này mình và các bạn sẽ cùng nhau tìm hiểu thêm về 1 khái niệm mới là **[Lifecycle](https://www.solidjs.com/docs/latest/api#lifecycles)** trong **[SolidJS](https://www.solidjs.com/)** nhé.
+
+## II. Nội dung
+
+Định nghĩa cơ bản và các phương thức trong **[Lifecycle](https://www.solidjs.com/docs/latest/api#lifecycles)**: **onMount, onCleanup và onError**...
+
+---
+
+### 1. Lifecycle trong SolidJS
+
+Con người khi được sinh ra trên đời này, ai cũng đều phải trải qua 1 chu kỳ giống nhau: **Sinh - Lão - Bệnh - Tử**
+
+Từ ngàn đời nay chu kỳ này đã trở thành một chân lý, một điều bất di bất dịch không thể thay đổi. Quy luật trên không chỉ đúng với con người mà đúng với hầu hết mọi sự vật hiện tượng (**Thành - Trụ - Hoại - Diệt**)
+
+<img src={img1} alt='img1' />
+<div align='center'>
+  Nguồn:<a href='https://www.istockphoto.com/'> https://www.istockphoto.com/</a>
+</div>
+
+Trong ngành công nghệ cũng như vậy, bất kỳ một công nghệ, một ứng dụng nào rồi cũng sẽ trải qua 1 vòng tuần hoàn như vậy.
+
+Nếu như các bạn đã từng học về Angular, React hay Vue... thì có thể đã quen thuộc với thuật ngữ **Lifecycle**.
+
+**Lifecycle** hay còn gọi là vòng đời, thể hiện 1 chu kỳ từ lúc bắt đầu xuất hiện của 1 **Component** đến lúc cập nhật thay đổi trạng thái, dữ liệu của chính **Component** đó cho đến khi kết thúc chu kỳ của nó.
+
+**Lifecycle** trong SolidJS giới thiệu đến chúng ta các phương thức (methods) hoạt trong các chu kỳ như **`onMount`**, **`onCleanup`** hay **`onError`**.
+
+### 2. Phương thức `onMount`
+
+Nếu chúng ta muốn thực thi 1 logic, chạy một số đoạn code nào đấy hoặc chỉ đơn giản là tracking thông tin, dữ liệu ngay lúc ban đầu khi Component được render, chúng ta cần sử dụng **`onMount`**
+
+```jsx
+onMount(() => {
+  console.log('I mounted!');
+});
+```
+
+Về bản chất **`onMount()`** đơn giản chỉ là gọi một hàm **`createEffect()`** (`createEffect` đã được mình giới thiệu ở _[tập 3 của series](https://viblo.asia/p/series-solidjs-tap-3-reactivity-primitives-trong-solidjs-BQyJKjQW4Me)_) không theo dõi bất kỳ **Signals** nào (non-tracking). Nó sẽ tạo ra một **Effect** và chỉ chạy **một lần duy nhất** (never re-runs) sau khi Component hoàn tất việc render lần đầu.
+
+Ví dụ minh họa:
+
+```jsx
+import { render } from 'solid-js/web';
+import { createSignal, onMount } from 'solid-js';
+
+function Info() {
+  const [name, setName] = createSignal('Tùng Anh Nguyễn');
+
+  onMount(() => {
+    console.log('Mounted');
+    console.log('Change name after 2 second--> Pate Kem');
+    setTimeout(() => {
+      setName('Pate Kem');
+      console.log('Done onMount');
+    }, 2000);
+  });
+
+  return <div>{name()}</div>;
+}
+
+render(() => <Info />, document.getElementById('app'));
+```
+
+> Các bạn có thể copy đoạn code trên và paste vào https://playground.solidjs.com/ để chạy vd trực tiếp nhé.
+
+\*Trước khi thực thi code trong **`onMount`\***:
+
+<img src={img2} alt='img2' />
+
+_Và sau khi thực thi code --> kết thúc quá trình **`onMount`**:_
+
+<img src={img3} alt='img3' />
+
+Ví dụ ở trên như sau: mình khởi tạo `signal` tên là `name` với giá trị ban đầu là tên của mình `Tùng Anh Nguyễn`, sau khi Component `<Info/>` được render lần đầu, lúc đấy hàm **`onMount`** sẽ được trigger và thực thi những đoạn code bên trong nó (mình log thông tin và thay đổi lại giá trị của signal `name` thông qua hàm `setName`)
+
+### 3. Phương thức `onCleanup`
+
+khi người dùng chuyển hướng đến một trang page khác và web sẽ render 1 Component mới (trang mới) thay thế cho Component (trang cũ) hoặc khi trình duyệt được đóng lại.
+
+Quá trình đấy còn gọi là **unmounting** của Component, xảy ra khi component bị removed khỏi một DOM.\
+Lúc này sẽ có một method hoạt động trong quá trình này là: **`onCleanup`**, nó sẽ được gọi trước khi một Component bị remove khỏi một DOM. Nếu một Component khởi tạo bất kì một method nào mà method đó yêu cầu phải dọn dẹp dữ liệu... thì **`onCleanup`** sẽ là nơi bạn nên đặt clean up.
+
+Nếu các bạn đã từng code React Class Component thì sẽ biết đến phương thức **`ComponentWillUnMount`**, cũng tương tự với **`onCleanup`** trong SolidJS.
+
+```jsx
+import { render } from 'solid-js/web';
+import { createSignal, onCleanup } from 'solid-js';
+
+function App() {
+  const [isToggleComponent, setIsToggleComponent] = createSignal(false);
+
+  const handleChangeComponent = () =>
+    setIsToggleComponent(!isToggleComponent());
+
+  return (
+    <div>
+      <div>{isToggleComponent() ? <Info /> : <Counter />}</div>
+      <button onClick={handleChangeComponent}>Change Component</button>
+    </div>
+  );
+}
+
+const Counter = () => {
+  const [count, setCount] = createSignal(0);
+
+  const timer = setInterval(() => setCount(count() + 1), 1000);
+  onCleanup(() => {
+    console.log('Cleanup: clearInterval timer...');
+    clearInterval(timer);
+  });
+
+  return <p>count: {count()}</p>;
+};
+
+const Info = () => {
+  const [name] = createSignal('Pate Kem');
+  return <p> My name is {name()}</p>;
+};
+
+render(() => <App />, document.getElementById('app'));
+```
+
+> Các bạn có thể copy đoạn code trên và paste vào https://playground.solidjs.com/ để chạy vd trực tiếp nhé.
+
+Ở ví dụ trên các bạn có thể hiểu như sau:
+
+- Component **`<App/>`** sẽ quản lý việc hiển thị 2 Component là **`<Info/>`** và **`<Count/>`** thông qua Signal **isToggleComponent**.
+- Hàm `handleChangeComponent()` giúp thay đổi giá trị signal `isToggleComponent` nhằm hiển thị qua lại giữa Component `<Count/>` và `<Info/>`.
+- Component **`<Count/>`** hiển thị giá trị signal `count` thông qua hàm`timer()` trả về số đếm tăng dần +1 sau mỗi giây.
+- Sau mỗi lần click button `Change Component`, nếu giá trị `isToggleComponent === true` thì sẽ hiển thị Component `<Info/>`, lúc này trước khi Component `<Counter/>` bị remove khỏi DOM thì **`onCleanup`** sẽ được thực thi và tiến hành **`clearInterval`**.
+
+> `clearInterval()` là một hàm trong JavaScript dùng để hủy bỏ một interval (hành động được lặp lại sau một khoảng thời gian nhất định) được thiết lập bởi hàm `setInterval()`.
+
+### 4. Phương thức `onError`
+
+**`onError`** thực thi khi có lỗi trong phạm vi của Component đó.
+
+```jsx
+import { render } from 'solid-js/web';
+import { createSignal, onMount, onError } from 'solid-js';
+
+function App() {
+  const [isError, setIsError] = createSignal(false);
+
+  // Ví dụ đơn giản ở onMount mình get data về lỗi ---> throw lỗi...
+  onMount(() => {
+    throw new Error('Get data failed');
+  });
+
+  // onError sẽ nhận biết có lỗi xảy ra và thực hiện update lại signal isError
+  onError(error => {
+    console.log('onError: ', error);
+    setIsError(true);
+  });
+
+  return (
+    <div>
+      <p> {isError() ? 'Error App' : 'Loading...'}</p>
+    </div>
+  );
+}
+
+render(() => <App />, document.getElementById('app'));
+```
+
+<img src={img4} alt='img4' />
+
+<img src={img5} alt='img5' />
+
+## III. Tổng kết tập 4
+
+Tập 4 này chúng ta đã cùng tìm hiểu về các khái niệm và các phương thức chính được cung cấp trong **[Lifecycle](https://www.solidjs.com/docs/latest/api#lifecycles)** của SolidJS.
+
+Trong tập sau mình sẽ đi vào phần 🕹️ **Control Flow** trong SolidJS nhé:
+
+- Show
+- For
+- Index
+- Switch
+- Dynamic
+- Portal
+- Error Boundary
+
+Cảm ơn các bạn đã theo dõi tập 4 trong series về **[SolidJS](https://www.solidjs.com/)**. Nếu các bạn có thắc mắc hoặc góp ý về bài viết hãy **comment** giúp mình nhé, cảm ơn các bạn 😘
+
+### Tham khảo
+
+https://www.solidjs.com/docs/latest/api#lifecycles
