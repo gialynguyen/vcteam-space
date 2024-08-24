@@ -8,7 +8,7 @@ const { title } = config;
   <div>
     <p class='text-xs text-base-content/70'>
       &copy; {new Date().getFullYear()} –
-      <a class='link' href='https://blog.vc-team.com' target='_blank'>
+      <a class='link' href={`${import.meta.env.BASE_URL}`} target='_blank'>
         {title}
       </a>
       - Powered by

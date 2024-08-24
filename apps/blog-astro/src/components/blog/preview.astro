@@ -7,7 +7,7 @@ const post: Post = Astro.props.post;
 <div class='py-6 flex flex-row-reverse gap-6 md:gap-10 items-start'>
   {
     post.img && (
-      <a href={`/${post.slug}`} class='shrink-0'>
+      <a href={`${import.meta.env.BASE_URL}/${post.slug}`} class='shrink-0'>
         <Image
           src={post.img}
           alt={post.title}
@@ -20,7 +20,10 @@ const post: Post = Astro.props.post;
   }
   <div class='flex flex-col gap-4'>
     <h2 class='text-2xl'>
-      <a class='no-underline hover:underline font-bold' href={`/${post.slug}`}>{post.title}</a>
+      <a
+        class='no-underline hover:underline font-bold'
+        href={`${import.meta.env.BASE_URL}/${post.slug}`}>{post.title}</a
+      >
     </h2>
     <p class='text-sm text-base-content/70'>{post.desc}</p>
   </div>
