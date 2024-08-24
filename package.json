@@ -11,9 +11,10 @@
     "test": "turbo run test -- --passWithNoTests"
   },
   "devDependencies": {
-    "turbo": "1.4.6"
+    "turbo": "2.0.14"
   },
   "engines": {
-    "node": ">= 16.0.0"
-  }
+    "node": ">= 22.7.0"
+  },
+  "packageManager": "pnpm@9.8.0"
 }

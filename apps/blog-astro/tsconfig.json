@@ -6,8 +6,8 @@
     "types": ["vite/client"],
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*.astro"],
       "@layouts/*": ["src/components/layouts/*.astro"],
+      "@components/*": ["src/components/*.astro"],
       "@data/*": ["src/data/*.ts"],
       "@assets/*": ["src/assets/*"],
       "@/*": ["src/*.ts"]

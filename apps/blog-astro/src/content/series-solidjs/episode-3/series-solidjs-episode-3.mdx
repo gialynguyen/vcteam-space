@@ -2,6 +2,7 @@ import mainBG from './assets/main-bg.jpeg';
 import demo1 from './assets/demo1.png';
 import demo2 from './assets/demo2.png';
 import demo3 from './assets/demo3.png';
+import { Image } from 'astro:assets';
 
 export const title =
   'Series SolidJS - Tập 3: Reactivity primitives trong SolidJS.';
@@ -116,11 +117,11 @@ Khi chúng ta sử dụng hàm **createEffect()** nó sẽ luôn tạo ra 1 ph�
 
 Trước khi chúng ta click vào button `Click Me` thì side effect này đã được thực thi và nó đã `console.log("The count is now", count())` ra giá trị khởi tạo **(initial value)** ban đầu chính là số **`0`**
 
-<img src={demo1} alt='demo1' />
+<Image src={demo1} alt='demo1' />
 
 Tiếp sau đấy mỗi lần chúng ta click vào button `Click Me` thì giá trị số đếm `count()` sẽ tăng lên 1 đơn vị --> cũng đồng nghĩa với việc xảy ra 1 side effect (phản ứng phụ) `console.log("The count is now", count())`
 
-<img src={demo2} alt='demo2' />
+<Image src={demo2} alt='demo2' />
 
 ---
 
@@ -160,7 +161,7 @@ function Counter() {
 render(() => <Counter />, document.getElementById('app'));
 ```
 
-<img src={demo3} alt='demo3' />
+<Image src={demo3} alt='demo3' />
 
 ### **[Reactivity primitives](https://www.solidjs.com/guides/reactivity)** - Memos là gì?
 

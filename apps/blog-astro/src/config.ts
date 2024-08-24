@@ -1,4 +1,4 @@
-import logo from '@assets/img/logo.png';
+import logo from '@assets/img/logo.png?url';
 
 export default {
   title: 'VC-Team Blog',

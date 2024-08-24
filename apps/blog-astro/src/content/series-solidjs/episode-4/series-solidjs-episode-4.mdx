@@ -4,6 +4,7 @@ import img2 from './assets/2.png';
 import img3 from './assets/3.png';
 import img4 from './assets/4.png';
 import img5 from './assets/5.png';
+import { Image } from 'astro:assets';
 
 export const title =
   'Series SolidJS - Tập 4: Lifecycle (Vòng đời) trong SolidJS';
@@ -34,7 +35,7 @@ Con người khi được sinh ra trên đời này, ai cũng đều phải tr�
 
 Từ ngàn đời nay chu kỳ này đã trở thành một chân lý, một điều bất di bất dịch không thể thay đổi. Quy luật trên không chỉ đúng với con người mà đúng với hầu hết mọi sự vật hiện tượng (**Thành - Trụ - Hoại - Diệt**)
 
-<img src={img1} alt='img1' />
+<Image src={img1} alt='img1' />
 <div align='center'>
   Nguồn:<a href='https://www.istockphoto.com/'> https://www.istockphoto.com/</a>
 </div>
@@ -87,11 +88,11 @@ render(() => <Info />, document.getElementById('app'));
 
 \*Trước khi thực thi code trong **`onMount`\***:
 
-<img src={img2} alt='img2' />
+<Image src={img2} alt='img2' />
 
 _Và sau khi thực thi code --> kết thúc quá trình **`onMount`**:_
 
-<img src={img3} alt='img3' />
+<Image src={img3} alt='img3' />
 
 Ví dụ ở trên như sau: mình khởi tạo `signal` tên là `name` với giá trị ban đầu là tên của mình `Tùng Anh Nguyễn`, sau khi Component `<Info/>` được render lần đầu, lúc đấy hàm **`onMount`** sẽ được trigger và thực thi những đoạn code bên trong nó (mình log thông tin và thay đổi lại giá trị của signal `name` thông qua hàm `setName`)
 
@@ -185,9 +186,9 @@ function App() {
 render(() => <App />, document.getElementById('app'));
 ```
 
-<img src={img4} alt='img4' />
+<Image src={img4} alt='img4' />
 
-<img src={img5} alt='img5' />
+<Image src={img5} alt='img5' />
 
 ## III. Tổng kết tập 4
 

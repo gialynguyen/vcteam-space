@@ -1,6 +1,7 @@
 import app from './assets/app.png';
 import source from './assets/source_code.png';
 import exam from './assets/example.png';
+import { Image } from 'astro:assets';
 
 export const title =
   'Series SolidJS - Tập 2: Khởi tạo project SolidJS và cùng xem có gì trong đó nhé.';
@@ -54,11 +55,11 @@ npm run dev
 
 Đây là thành quả sau khi đã chạy lệnh `npm run dev` thành công nhé _(truy cập vào đường dẫn http://localhost:3000/)_
 
-<img src={app} alt='app' />
+<Image src={app} alt='app' />
 
 _Cấu trúc thư mục:_
 
-<img src={source} alt='source' />
+<Image src={source} alt='source' />
 
 Nếu bạn đã từng học qua **[ReactJS](https://reactjs.org/)** và có biết đến câu thần chú `create-react-app` thì sẽ thấy cấu trúc source code, syntax của **[SolidJS](https://www.solidjs.com/)** quen thuộc đúng không nào?
 
@@ -116,9 +117,9 @@ render(
 );
 ```
 
-<img src={exam} alt='exam' />> Các bạn hãy mở file `index.jsx` + file
-`index.html` trong source vừa tạo và bạn sẽ thấy thẻ `<div id='root'></div>`, đó
-chính là nơi sẽ render ra ứng dụng của bạn.
+<Image src={exam} alt='exam' />
+
+> Các bạn hãy mở file `index.jsx` + file `index.html` trong source vừa tạo và bạn sẽ thấy thẻ `<div id='root'></div>`, đó chính là nơi sẽ render ra ứng dụng của bạn.
 
 Dựa theo đoạn code trên, nó sẽ được **SolidJS** biên dịch thành các biểu thức trên **DOM** thực, trông nó sẽ giống như sau:
 

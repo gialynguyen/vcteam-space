@@ -1,4 +1,5 @@
 import reactFlowImgSrc from "./assets/react-flow.png";
+import { Image } from 'astro:assets';
 
 export const title = "React useEffect Cleanup";
 export const date = "2021-11-23";
@@ -27,7 +28,7 @@ Dựa vào cách thức hoạt động của quá trình cleanup, ta có thể t
 
 Ta có thể hệ thống lại các quá trình của một Functional Component như sau:
 
-<img src={reactFlowImgSrc} alt="react-flow"/>
+<Image src={reactFlowImgSrc} alt="react-flow"/>
 
 > [https://github.com/donavon/hook-flow/blob/master/hook-flow.pdf](https://github.com/donavon/hook-flow/blob/master/hook-flow.pdf)
 >
@@ -40,7 +41,7 @@ Vì vậy, ở phiên bản thứ 17, React sẽ delay quá trình cleanup cho t
 
 Ví dụ khi unmount thì quá trình cleanup sẽ được thực thi sau khi màn hình đã được update, tức là sau khi component đã không còn được hiển thị trên màn hình.
 
-Điều này sẽ dẫn đến vài “lỗi” ngoài ý muốn khi thực hiện quá trình cleanup, đặc biệt khi truy cập, tương tác với các Dom Element. Vị dụ đoạn code sau có thể xảy ra lỗi trong quá trình cleanup.
+Điều này sẽ dẫn đến vài "lỗi" ngoài ý muốn khi thực hiện quá trình cleanup, đặc biệt khi truy cập, tương tác với các Dom Element. Vị dụ đoạn code sau có thể xảy ra lỗi trong quá trình cleanup.
 
 ```jsx
 useEffect(() => {
@@ -51,9 +52,9 @@ useEffect(() => {
 });
 ```
 
- Bởi khi ta gắn ref vào 1 Dom Element, và thực thi một hàm “someCleanupMethod” của nó khi cleanup, thì có khả năng Dom Element này đã không còn tồn tại và đã được dọn dẹp và “someRef.current” lúc này có thể “null”
+Bởi khi ta gắn ref vào 1 Dom Element, và thực thi một hàm "someCleanupMethod" của nó khi cleanup, thì có khả năng Dom Element này đã không còn tồn tại và đã được dọn dẹp và "someRef.current" lúc này có thể "null"
 
-Vì thế, để tránh điều này xảy ra, ta nên ngăn chặn cho giá trị không bị dọn dẹp đi bằng cách “capture” giá trị đó lại bên trong useEffect đó như sau (tìm hiểu thêm về cơ chế Garbage Collection): 
+Vì thế, để tránh điều này xảy ra, ta nên ngăn chặn cho giá trị không bị dọn dẹp đi bằng cách "capture" giá trị đó lại bên trong useEffect đó như sau (tìm hiểu thêm về cơ chế Garbage Collection): 
 
 ```jsx
 useEffect(() => {

@@ -1,5 +1,6 @@
 ---
 import type { Post } from '@data/post';
+import { Image } from 'astro:assets';
 const post: Post = Astro.props.post;
 ---
 
@@ -7,7 +8,7 @@ const post: Post = Astro.props.post;
   {
     post.img && (
       <a href={`/${post.slug}`} class='shrink-0'>
-        <img
+        <Image
           src={post.img}
           alt={post.title}
           width='160'
